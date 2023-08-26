@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shark Size Calculator</title>
+<style>
+  #container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5vh;
+  }
+  img {
+    max-width: 100%;
+    margin: 10px;
+  }
+  h2 {
+    text-align: center;
+  }
+  .input-container {
+    display: flex;
+  }
+  hr {
+    width: 50%; /* Adjust the percentage to control the length */
+    margin: 40px auto; /* Center the <hr> horizontally and add spacing */
+  }
+  .row {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  /*Do not forget next line, or items won't wrap*/
+  flex-wrap: wrap;
+}
+
+.column {
+  flex: 50%;
+}
+.shark-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 5px;
+  /* font-size:  16; */
+  font-weight: bold;
+  background-color: transparent;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.shark-button:hover {
+  background-color: #0056b3;
+}
+
+.shark-icon {
+  background-image: url('icon.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 60px;
+  height: 60px;
+}
+#tooth-img {
+  background-image: url(tooth.jpg); background-repeat: no-repeat; background-size: cover; height: 100vh;
+}
+@media(max-width: 560px) {
+    #tooth-img{
+      margin-top: 3vh;
+      height: 50vh;
+    }  
+}
+
+</style>
+
+</head>
+<body>
+  
+  <div id ="page1" class="row">
+    <div class="column">      
+      <h2 style="margin-top: 30%;" >What is the size of the shark tooth you are holding?</h2>
+      <div class="input-container" style="margin-left: 25%;">
+        <label for="widthInput">Tooth Size:</label>
+        
+        <input type="number" id="widthInput" placeholder="Enter width" onblur="updateImages()">
+        <button onclick="updateImages()">Calcuate Size</button>
+      </div>
+    </div>
+    <div id="tooth-img" class="column"  ></div>
+  </div>
+  
+  <div id="page2" style="display: none;">
+    <button class="shark-button" onclick="window.location.reload();">
+      <span class="shark-icon"></span>
+    </button>
+
+  <div id="container" class="row">
+    <div id="shark-img" style="height: auto  ;">
+      <img id="image1">
+    </div>
+    <h2 id="shark-size"></h2>
+      <div class="input-container">
+        <div id="himg" style="height:auto;">
+          <img id="image2">
+        </div>
+      </div>
+      <div class="input-container">
+        <h2 id="human-size"></h2>
+      </div>
+  </div>
+
+
+      <div id="container">
+        <p> <h1>The Megalodon:</h1></p>
+        <ul>
+          <h3>
+            
+            <li>Literally means “big tooth” in Ancient Greek.</li>
+            <li>Is an extinct species of sharks.</li>
+            <li>Lived approximately 23 to 3.6 million years ago.</li>
+            <li>Is a close relative of the great white shark.</li>
+            <li>Is one of the largest and most powerful predators to have ever lived.</li>
+            <li>Maximum size and weight remain uncertain but could likely exceed 20 meters and 50 tons.</li>
+          </ul>
+        </h3>
+        <p>
+        
+      </div>
+  </div>
+<script>
+  const widthInput = document.getElementById("widthInput");
+  const shark_div = document.getElementById("shark-img");
+  const image1 = document.getElementById("image1");
+  const image2 = document.getElementById("himg");
+  const human_img = document.getElementById("image2");
+  const output = document.getElementById("shark-size");
+  const page2 = document.getElementById("page2");
+  const page1 = document.getElementById("page1");
+  const human_text = document.getElementById("human-size");
+  function updateImages() {
+    const width = widthInput.value;
+    const shark_size = ((0.96 * width)-0.22).toFixed(2);
+    const scale = 100;
+    var human_size = 1.7;
+    var human_size_text = "Short phoenician Man's Size: ";
+    if(shark_size >= 8){
+      human_img.src= "over8-cropped.JPG";
+      human_size = 3.4;
+      image1.src = "megalodon-no-bg.png";
+      human_size_text = "Short phoenician Men's Size:"
+    }else if (shark_size >= 3){
+      human_img.src= "below8-cropped.JPG";
+      human_size = 1.7;
+      image1.src = "shark1.png";
+
+    }
+    else{
+      human_img.src= "below8-cropped.JPG";
+      human_size = 1.7;
+      image1.src = "shark2.webp";
+    }
+    
+    human_text.innerHTML = "<b>" + human_size_text + human_size + "</b>";
+    const shark_image_width = shark_size*scale;
+    const human_image_width = scale*human_size;
+    if (width && width > 0) {
+      page1.style.display = 'none';
+      page2.style.display = "block";
+      image1.style.width = shark_image_width + "px";
+      output.innerHTML = "Shark size: " + shark_size + " meters";
+      image2.style.width = human_image_width + "px";
+    } else {
+      page1.style.display = 'block';
+      page2.style.display = 'none';  
+    }
+  }
+  widthInput.addEventListener("keypress", function(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    updateImages();  
+  }else if(event.key === "Escape"){
+    widthInput.value = null;
+  }
+});
+</script>
+</body>
+</html>
